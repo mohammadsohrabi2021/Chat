@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { auth } from "../../firebase";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ChatEngine } from "react-chat-engine";
 import axios from "axios";
 
@@ -16,11 +16,11 @@ import { AuthContext } from "./../../Contexts/AuthContextProvider";
 const Chats = () => {
   const [loading, setLoading] = useState(true);
   const user = useContext(AuthContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
-      Navigate('/');
+      navigate('/');
       return;
     }
     axios
@@ -51,7 +51,7 @@ const Chats = () => {
             .catch((error) => console.log(error));
         });
       });
-  }, [user,Navigate]);
+  }, [user,navigate]);
 
   const getFile = async (url) => {
     const response = await fetch(url);
@@ -60,7 +60,7 @@ const Chats = () => {
   };
   const logoutHandler = async () => {
     await auth.signOut();
-    Navigate('/');
+    navigate('/');
 
   };
 
