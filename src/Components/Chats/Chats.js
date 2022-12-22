@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { auth } from "../../firebase";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ChatEngine } from "react-chat-engine";
 import axios from "axios";
 
@@ -16,17 +16,17 @@ import { AuthContext } from "./../../Contexts/AuthContextProvider";
 const Chats = () => {
   const [loading, setLoading] = useState(true);
   const user = useContext(AuthContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
-      Navigate('/');
+      navigate('/');
       return;
     }
     axios
       .get("https://api.chatengine.io/users/me", {
         headers: {
-          "project-id": "a9b6b474-198b-4dc5-bb35-bc5492c231d2",
+          "project-id": "2780ea22-01a3-45d6-9c33-aa03bfce025b",
           "user-name": user.email,
           "user-secret": user.uid,
         },
@@ -44,14 +44,14 @@ const Chats = () => {
           axios
             .post("https://api.chatengine.io/users/", formdata, {
               headers: {
-                "private-key": "a57b8767-610e-4a1e-b3a9-d93ff3807079",
+                "private-key": "e3363ca3-c945-4f12-8573-cd16408170c7",
               },
             })
             .then(() => setLoading(false))
             .catch((error) => console.log(error));
         });
       });
-  }, [user,Navigate]);
+  }, [user,navigate]);
 
   const getFile = async (url) => {
     const response = await fetch(url);
@@ -60,7 +60,7 @@ const Chats = () => {
   };
   const logoutHandler = async () => {
     await auth.signOut();
-    Navigate('/');
+    navigate('/');
 
   };
 
@@ -71,7 +71,7 @@ const Chats = () => {
       <Navbar logoutHandler={logoutHandler} />
       <ChatEngine
         height="calc(100vh -50px)"
-        projectID="a9b6b474-198b-4dc5-bb35-bc5492c231d2"
+        projectID="2780ea22-01a3-45d6-9c33-aa03bfce025b"
         userName={user.email}
         userSecret={user.uid}
       />
