@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from 'firebase/compat/app';
+import firebase from "firebase/compat/app";
 import { auth } from "../../firebase";
 
 // icon
@@ -13,12 +13,14 @@ const Login = () => {
     <div className={styles.loginPage}>
       <div className={styles.loginCard}>
         <h2>Welcome to Chat!</h2>
-        <div
-          onClick={() => auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())}
+        <button
+          onClick={() =>
+            auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+          }
           className={styles.button}
         >
-          <img src={google} alt="google" /> Sign in with Google
-        </div>
+            <img src={google} alt="google" /> Sign in with Google
+        </button>
       </div>
     </div>
   );
