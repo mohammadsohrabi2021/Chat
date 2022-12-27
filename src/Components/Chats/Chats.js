@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
+import { CircularProgress, Grid} from "@mui/material";
 import { auth } from "../../firebase";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import { ChatEngine } from "react-chat-engine";
 import axios from "axios";
 
@@ -16,11 +19,14 @@ import { AuthContext } from "./../../Contexts/AuthContextProvider";
 const Chats = () => {
   const [loading, setLoading] = useState(true);
   const user = useContext(AuthContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const history = useHistory();
+
 
   useEffect(() => {
     if (!user) {
-      navigate('/');
+      // navigate('/');
+      history.push("/");
       return;
     }
     axios
@@ -51,7 +57,7 @@ const Chats = () => {
             .catch((error) => console.log(error));
         });
       });
-  }, [user,navigate]);
+  }, [user,history]);
 
   const getFile = async (url) => {
     const response = await fetch(url);
@@ -60,11 +66,16 @@ const Chats = () => {
   };
   const logoutHandler = async () => {
     await auth.signOut();
-    navigate('/');
+    // navigate('/');
+    history.push("/")
 
   };
 
-  if (!user || loading) return "Loading ...";
+  if (!user || loading) return  (
+    <Grid display={'flex'} justifyContent={'center'} mt={5}>
+      <CircularProgress />;
+    </Grid>
+  )
 
   return (
     <div className={styles.container}>
